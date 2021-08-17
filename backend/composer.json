@@ -2,7 +2,7 @@
     "name": "workana/hiring_challenge",
     "description": "Workana Dev Challenge",
     "require": {
-        "php": "^7.4",
+        "php": "^8.0",
         "ext-json": "*",
         "slim/psr7": "^1.2",
         "slim/slim": "^4.5"
