@@ -1,0 +1,39 @@
+<template>
+    <ul id="voteList">
+      <li v-for="vote in validVotes" :key="vote">
+        <Card v-bind:selected="vote === cardVoted" @selectCard="selectCard(vote)">{{vote}}</Card>
+      </li>
+    </ul>
+</template>
+
+<script>
+import Card from "../atoms/Card";
+export default {
+  name: "VoteCardContainer",
+  components: {Card},
+  props: {validVotes: Array},
+  data() {
+    return {
+      cardVoted: null,
+    }
+  },
+  methods: {
+    selectCard(vote) {
+      this.cardVoted = vote;
+      this.$emit('emitVote', this.cardVoted);
+    },
+  },
+}
+</script>
+
+<style scoped>
+
+#voteList {
+  margin: 10px auto;
+  justify-content: center;
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+}
+
+</style>
