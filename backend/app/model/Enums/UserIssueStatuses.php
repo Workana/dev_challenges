@@ -1,0 +1,12 @@
+<?php
+
+namespace App\model\Enums;
+
+use PhpParser\Node\Stmt\Enum_;
+
+class UserIssueStatuses extends Enum_
+{
+    public const WAITING = 'Waiting';
+    public const VOTED = 'Voted';
+    public const PASED = 'Pased';
+}
