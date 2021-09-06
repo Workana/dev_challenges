@@ -2,10 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\model\Repositories;
+namespace App\Domain\Repositories;
 
-use App\model\Entities\User;
-
+use App\Domain\Entities\User;
 interface UserRepository
 {
     public function findByName(string $name): ?User;

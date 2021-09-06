@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\model\Entities;
+namespace App\Domain\Entities;
 
-use App\model\Enums\UserIssueStatuses;
+use App\Domain\Enums\UserIssueStatuses;
 
 class Issue
 {

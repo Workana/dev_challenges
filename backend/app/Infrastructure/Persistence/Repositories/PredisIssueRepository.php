@@ -4,22 +4,20 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Persistence\Repositories;
 
-use App\model\Entities\Issue;
-use App\model\Entities\User;
-use App\model\Repositories\IssueRepository;
+use App\Domain\Entities\Issue;
+use App\Domain\Repositories\IssueRepository;
 use Predis\Client;
 
 class PredisIssueRepository implements IssueRepository
 {
     private Client $client;
-    private const KEY_NAME = 'issues';
 
     public function __construct()
     {
         $this->client = new Client([
-            'scheme' => 'tcp',
-            'host'   => 'redis',
-            'port'   => 6379,
+            'scheme' => $_ENV['REDIS_SCHEME'],
+            'host'   => $_ENV['REDIS_HOST'],
+            'port'   => $_ENV['REDIS_PORT'],
         ]);
     }
 

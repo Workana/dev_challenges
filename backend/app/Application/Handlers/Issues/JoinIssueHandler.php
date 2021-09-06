@@ -5,19 +5,19 @@ declare(strict_types=1);
 namespace App\Application\Handlers\Issues;
 
 use App\Application\Commands\Issues\JoinIssueCommand;
+use App\Application\Interfaces\WebSocketService;
 use App\Application\Services\CurrentUserService;
-use App\Application\Services\PusherService;
-use App\Infrastructure\Persistence\Repositories\PredisIssueRepository;
-use App\model\Entities\Issue;
-use App\model\Enums\IssueStatuses;
-use App\model\Enums\UserIssueStatuses;
+use App\Domain\Entities\Issue;
+use App\Domain\Enums\IssueStatuses;
+use App\Domain\Enums\UserIssueStatuses;
+use App\Domain\Repositories\IssueRepository;
 
 class JoinIssueHandler
 {
     public function __construct(
         private CurrentUserService $currentUserService,
-        private PredisIssueRepository $issueRepository,
-        private PusherService $pusher
+        private IssueRepository $issueRepository,
+        private WebSocketService $webSocketService
     ) { }
     
     public function handle(JoinIssueCommand $command): void
@@ -47,7 +47,7 @@ class JoinIssueHandler
         $this->issueRepository->save($issue);
 
         //todo add to a queue
-        $this->pusher->triggerData(
+        $this->webSocketService->pushEvent(
             strval($issue->getNumber()),
             'user-joined',
             $issue->toArray()

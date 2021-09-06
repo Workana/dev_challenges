@@ -3,9 +3,10 @@ declare(strict_types=1);
 
 namespace App\Application\Services;
 
+use App\Application\Interfaces\WebSocketService;
 use Pusher\Pusher;
 
-class PusherService
+class PusherService implements WebSocketService
 {
     private Pusher $pusher;
 
@@ -22,7 +23,7 @@ class PusherService
         );
     }
 
-    public function triggerData(string $channel = 'default', string $event = 'default', array $data = []): void
+    public function pushEvent(string $channel = 'default', string $event = 'default', array $data = []): void
     {
         $this->pusher->trigger($channel, $event, $data);
     }

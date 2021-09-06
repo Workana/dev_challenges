@@ -6,7 +6,7 @@ namespace App\Http\Middlewares;
 
 use App\Application\Exceptions\UnauthorizedException;
 use App\Application\Services\CurrentUserService;
-use App\Infrastructure\Persistence\Repositories\PredisUserRepository;
+use App\Domain\Repositories\UserRepository;
 use Firebase\JWT\JWT;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -16,11 +16,8 @@ class AuthenticateMiddleware
 {
     public function __construct(
         private CurrentUserService $currentUser,
-        private PredisUserRepository $userRepository
-    )
-    {
-        
-    }
+        private UserRepository $userRepository
+    ) { }
 
     public function __invoke(Request $request, RequestHandlerInterface $handler) : Response
     {

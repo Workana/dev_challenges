@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\model\Repositories;
+namespace App\Domain\Repositories;
 
-use App\model\Entities\Issue;
+use App\Domain\Entities\Issue;
 
 interface IssueRepository
 {

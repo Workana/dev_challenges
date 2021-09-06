@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Application\Services;
 
-use App\model\Entities\User;
+use App\Domain\Entities\User;
 use RuntimeException;
 
 final class CurrentUserService

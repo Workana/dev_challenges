@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Persistence\Repositories;
 
-use App\model\Entities\User;
-use App\model\Repositories\UserRepository;
+use App\Application\Exceptions\DuplicateEntityException;
+use App\Domain\Entities\User;
+use App\Domain\Repositories\UserRepository;
 use Predis\Client;
 
 class PredisUserRepository implements UserRepository
@@ -15,9 +16,9 @@ class PredisUserRepository implements UserRepository
     public function __construct()
     {
         $this->client = new Client([
-            'scheme' => 'tcp',
-            'host'   => 'redis',
-            'port'   => 6379,
+            'scheme' => $_ENV['REDIS_SCHEME'],
+            'host'   => $_ENV['REDIS_HOST'],
+            'port'   => $_ENV['REDIS_PORT'],
         ]);
     }
 
@@ -39,7 +40,7 @@ class PredisUserRepository implements UserRepository
         if ($users) {
             $users =json_decode($users);
             if (in_array($user->getName(), $users)){
-                throw new \Exception('Name already on database');
+                throw new DuplicateEntityException('Name already on database');
             }
         } else {
             $users = [];
