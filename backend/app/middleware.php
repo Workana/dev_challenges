@@ -19,7 +19,6 @@ return function (App $app) {
         $response = $response->withHeader('Access-Control-Allow-Headers', $requestHeaders);
         return $response;
     });
-    $app->add(AuthenticateMiddleware::class);
     $app->addBodyParsingMiddleware();
     $app->addRoutingMiddleware();
 };

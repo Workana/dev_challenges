@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Http\Actions\Issues\GetIssueAction;
 use App\Http\Actions\Issues\JoinIssueAction;
 use App\Http\Actions\Issues\VoteIssueAction;
