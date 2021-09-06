@@ -29,7 +29,7 @@ class VoteIssueAdapter
 
         $body = $request->getParsedBody();
         
-        if (key_exists(self::VOTE_PARAM, $body)) {
+        if ($body && key_exists(self::VOTE_PARAM, $body)) {
             $vote = $body[self::VOTE_PARAM] ?: null;
         } else {
             throw new InvalidBodyException('Missing argument: ' . self::VOTE_PARAM);

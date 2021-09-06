@@ -7,6 +7,7 @@ namespace App\Application\Handlers\Issues;
 use App\Application\Commands\Issues\GetIssueQuery;
 use App\Infrastructure\Persistence\Repositories\PredisIssueRepository;
 use App\model\Entities\Issue;
+use App\model\Enums\IssueStatuses;
 
 class GetIssueHandler
 {
@@ -16,6 +17,13 @@ class GetIssueHandler
     
     public function handle(GetIssueQuery $query): ?Issue
     {
-        return $this->issueRepository->findByNumber($query->getNumber());
+        $issue = $this->issueRepository->findByNumber($query->getNumber());
+        if ($issue && $issue->getStatus() !== IssueStatuses::FINISHED) {
+            foreach ($issue->getUserStatuses() as $userStatuses) {
+                unset($userStatuses->vote);
+            }
+        }
+
+        return $issue;
     }
 }

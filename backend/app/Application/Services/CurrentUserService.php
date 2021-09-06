@@ -4,14 +4,20 @@ declare(strict_types=1);
 namespace App\Application\Services;
 
 use App\model\Entities\User;
+use RuntimeException;
 
 final class CurrentUserService
 {
-    private User $user;
+    private ?User $user = null;
 
-    public function getUser(): ?User
+    public function __construct(){}
+
+    public function getUser(): User
     {
-        return $this->user;
+        if ($this->user) {
+            return $this->user;
+        }
+        throw new RuntimeException('Current user is null');
     }
 
     public function setUser(User $user): void

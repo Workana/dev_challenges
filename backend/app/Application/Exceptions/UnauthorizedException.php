@@ -9,10 +9,12 @@ use Exception;
 class UnauthorizedException extends Exception
 {
     private int $statusCode;
+    private string $responseMessage;
 
     public function __construct()
     {
         parent::__construct('Unauthorized');
+        $this->responseMessage = 'Unauthorized';
         $this->statusCode = 401;
     }
 

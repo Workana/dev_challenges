@@ -6,6 +6,7 @@ namespace App\Application\Handlers\Issues;
 
 use App\Application\Commands\Issues\JoinIssueCommand;
 use App\Application\Services\CurrentUserService;
+use App\Application\Services\PusherService;
 use App\Infrastructure\Persistence\Repositories\PredisIssueRepository;
 use App\model\Entities\Issue;
 use App\model\Enums\IssueStatuses;
@@ -15,10 +16,11 @@ class JoinIssueHandler
 {
     public function __construct(
         private CurrentUserService $currentUserService,
-        private PredisIssueRepository $issueRepository
+        private PredisIssueRepository $issueRepository,
+        private PusherService $pusher
     ) { }
     
-    public function handle(JoinIssueCommand $command)
+    public function handle(JoinIssueCommand $command): void
     {
         $issue = $this->issueRepository->findByNumber($command->getNumber());
 
@@ -44,6 +46,11 @@ class JoinIssueHandler
         }
         $this->issueRepository->save($issue);
 
-        return $issue;
+        //todo add to a queue
+        $this->pusher->triggerData(
+            strval($issue->getNumber()),
+            'user-joined',
+            $issue->toArray()
+        );
     }
 }

@@ -22,8 +22,8 @@ class PusherService
         );
     }
 
-    public function triggerData(array $data): void
+    public function triggerData(string $channel = 'default', string $event = 'default', array $data = []): void
     {
-        $this->pusher->trigger('my-channel', 'issue-voted', $data);
+        $this->pusher->trigger($channel, $event, $data);
     }
 }

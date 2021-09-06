@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace app\Http\Adapters\Auth;
+namespace App\Http\Adapters\Auth;
 
 use App\Application\Commands\Auth\RegisterUserCommand;
 use App\Application\Exceptions\InvalidBodyException;
@@ -15,7 +15,11 @@ class RegisterUserAdapter
     public function adapt(Request $request): RegisterUserCommand
     {
         $data = $request->getParsedBody();
-        $name = $data[self::USERNAME_PARAM] ?: null;
+        if (key_exists(self::USERNAME_PARAM, $data)){
+            $name = $data[self::USERNAME_PARAM] ?: null;
+        } else {
+            $name = null;
+        }
         
         if (!$name) {
             throw new InvalidBodyException('Missing argument: ' . self::USERNAME_PARAM);

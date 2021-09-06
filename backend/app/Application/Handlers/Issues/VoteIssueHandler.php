@@ -6,6 +6,7 @@ namespace App\Application\Handlers\Issues;
 
 use App\Application\Commands\Issues\VoteIssueCommand;
 use App\Application\Services\CurrentUserService;
+use App\Application\Services\PusherService;
 use App\Infrastructure\Persistence\Repositories\PredisIssueRepository;
 use App\model\Enums\IssueStatuses;
 use App\model\Enums\UserIssueStatuses;
@@ -15,7 +16,8 @@ class VoteIssueHandler
 {
     public function __construct(
         private CurrentUserService $currentUserService,
-        private PredisIssueRepository $issueRepository
+        private PredisIssueRepository $issueRepository,
+        private PusherService $pusher
     ) { }
     
     public function handle(VoteIssueCommand $command): void
@@ -43,5 +45,12 @@ class VoteIssueHandler
         }
 
         $this->issueRepository->save($issue);
+
+        //todo add to a queue
+        $this->pusher->triggerData(
+            strval($issue->getNumber()),
+            'user-voted',
+            $issue->toArray()
+        );
     }
 }
