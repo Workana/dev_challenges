@@ -1,7 +1,9 @@
 <template>
   <header>
     <h1>♠ Planning Poker ♠</h1>
-    <div id="logo"></div>
+    <router-link to="/">
+      <div id="logo"></div>
+    </router-link>
     <h2>Hiring Challenge 👋</h2>
   </header>
 </template>

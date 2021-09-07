@@ -3,8 +3,9 @@
     <ul id="memberList">
       <li :key="member.name" v-for="member in this.members">
         <div class="status">{{member.vote ? '✅' : ''}}</div>
-        <div class="name">{{member.name}}</div>
-        <div class="vote">{{member.vote ? member.vote : '-'}}</div>
+        <div class="name">{{member.user}}</div>
+        <div class="vote" v-if="issueStatus === 'Voting'">-</div>
+        <div class="vote" v-else>{{member.vote}}</div>
       </li>
     </ul>
   </div>
@@ -13,7 +14,7 @@
 <script>
 export default {
   name: "MembersContainer",
-  props: {members: Array},
+  props: {members: Array, issueStatus: String},
 }
 </script>
 

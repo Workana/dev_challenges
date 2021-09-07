@@ -3,12 +3,24 @@
  */
 
 const issue = {
-    "status": "voting",
-    "members": [
-        {"name": "florencia", "status": "voted"},
-        {"name": "kut", "status": "waiting"},
-        {"name": "lucho", "status": "passed"}
-    ]
+    "number": 250,
+    "users": [
+        "agostinaaa",
+        "davidddd"
+    ],
+    "userStatuses": [
+        {
+            "user": "agostinaaa",
+            "status": "Waiting",
+            "vote": null
+        },
+        {
+            "user": "davidddd",
+            "status": "Waiting",
+            "vote": 8
+        }
+    ],
+    "status": "Voting"
 }
 
 export default {

@@ -1,43 +1,38 @@
 <template>
   <div id="container">
-    <div>
-      <button @click="createRoom">
-        Create a new room
+      <h3>Join room</h3>
+      <input placeholder="Enter an issue number" v-model="issue"/>
+      <button @click="joinLobby">
+        Join
       </button>
-      <button @click="joinRoom">
-        Join room
-      </button>
-    </div>
-    <div>
-      <CreateNewRoom v-show="showCreateRoom"/>
-      <JoinRoom v-show="showJoinRoom"/>
-    </div>
   </div>
 </template>
 
 <script>
-import CreateNewRoom from "../components/organisms/CreateNewRoom";
-import JoinRoom from "../components/organisms/JoinRoom";
+import {mapState} from "vuex";
+import authStorage from "../services/localStorage/authStorage";
 
 export default {
   name: "Home",
-  components: {CreateNewRoom, JoinRoom},
   data() {
     return {
-      showCreateRoom: false,
-      showJoinRoom: false,
+      issue: '',
     };
   },
+  computed: {
+    ...mapState({
+      userIsRegistered: state => state.auth.userIsRegistered
+    }),
+  },
+  mounted() {
+    if(authStorage.getSession() === ''){
+      this.$router.push('/signup')
+    }
+  },
   methods: {
-    createRoom()
+    joinLobby()
     {
-      this.showCreateRoom = true;
-      this.showJoinRoom = false;
-    },
-    joinRoom()
-    {
-      this.showJoinRoom = true;
-      this.showCreateRoom = false;
+
     }
   },
 }
@@ -46,14 +41,7 @@ export default {
 <style scoped>
 #container{
   margin: 40px auto;
-  width: 100%;
+  width: 300px;
 }
 
-#container button {
-  margin: 15px;
-  padding: 15px;
-  background-color: #e76f51;
-  color: #FFFFFF;
-  cursor: pointer;
-}
 </style>

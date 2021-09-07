@@ -2,9 +2,10 @@
   <div id="container">
     <VoteCardContainer v-bind:valid-votes="validVotes" @emitVote="emitVote"/>
     <h3>
-      Voting issue #<input id="issue" type="number" v-model="issue" /> • Connected {{members.length}}
+      Voting issue #{{issue}} • Connected {{members.length}}
     </h3>
-    <MembersContainer v-bind:members="this.members"/>
+    <button v-show="this.issueStatus === 'Voted'">Reveal Cards</button>
+    <MembersContainer v-bind:members="this.members" v-bind:issueStatus="this.issueStatus"/>
   </div>
 </template>
 
@@ -12,6 +13,7 @@
 import { mapState } from 'vuex'
 import VoteCardContainer from "../components/molecules/VoteCardContainer";
 import MembersContainer from "../components/molecules/MembersContainer";
+import authStorage from "../services/localStorage/authStorage";
 
 export default {
   name: 'Lobby',
@@ -19,21 +21,21 @@ export default {
   data() {
     return {
       validVotes: [1,2,3,5,8,13,20,40,'?'],
-      responsesDemo: {
-        php: null,
-        node: null,
-      }
     };
   },
   computed: {
     you() { return this.members[0] },
     ...mapState({
                 issue: state => state.lobby.issue,
-               members: state => state.lobby.members
+               members: state => state.lobby.members,
+                issueStatus: state => state.lobby.issueStatus
     }),
   },
   mounted() {
-    this.demoResponses();
+    authStorage.setSession('fdggfdfdfgdfdgfdgf')
+    if(authStorage.getSession() === ''){
+      this.$router.push('/signup')
+    }
     this.$store.dispatch('lobby/getIssue')
   },
   methods: {
@@ -44,12 +46,6 @@ export default {
       }
       this.you.vote = vote;
     },
-    async demoResponses() {
-      const resPhp = await fetch('http://localhost:8081/issue/232');
-      this.responsesDemo.php = JSON.stringify(await resPhp.json());
-      const resNode = await fetch('http://localhost:8082/issue/232');
-      this.responsesDemo.node = JSON.stringify(await resNode.json());
-    }
   }
 }
 </script>

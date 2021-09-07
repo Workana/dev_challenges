@@ -1,12 +1,14 @@
 import axios from 'axios';
 import { errorHandler } from './errorHandler';
+import authStorage from "../localStorage/authStorage";
 
 class ApiFetch {
     constructor() {
-        this.apiUrl = () => process.env.REACT_APP_API_URL;
+        this.apiUrl = () => process.env.VUE_APP_API_URL;
     }
 
     get(endpoint, customHeaders = {}) {
+        // eslint-disable-next-line no-async-promise-executor
         return new Promise(async (resolve, reject) => {
             const requestData = {
                 method: 'get',
@@ -23,6 +25,7 @@ class ApiFetch {
     }
 
     post(endpoint, body, customHeaders = {}) {
+        // eslint-disable-next-line no-async-promise-executor
         return new Promise(async (resolve, reject) => {
             const requestData = {
                 method: 'post',
@@ -40,6 +43,7 @@ class ApiFetch {
     }
 
     put(endpoint, body, customHeaders = {}) {
+        // eslint-disable-next-line no-async-promise-executor
         return new Promise(async (resolve, reject) => {
             const requestData = {
                 method: 'put',
@@ -57,6 +61,7 @@ class ApiFetch {
     }
 
     delete(endpoint, customHeaders = {}) {
+        // eslint-disable-next-line no-async-promise-executor
         return new Promise(async (resolve, reject) => {
             const requestData = {
                 method: 'delete',
@@ -73,13 +78,14 @@ class ApiFetch {
     }
 
     makeRequest(requestData) {
+        // eslint-disable-next-line no-async-promise-executor
         return new Promise(async (resolve, reject) => {
             const response = await axios({
                 method: requestData.method,
                 baseURL: this.apiUrl(),
                 url: `${requestData.endpoint}`,
                 data: requestData.body ? requestData.body : null,
-                headers: { ...requestData.customHeaders },
+                headers: { ...requestData.customHeaders, authorization: authStorage.getSession() },
             }).catch(error => {
                 errorHandler(error.response);
                 reject(error.response);
