@@ -26,4 +26,4 @@ jobs:
       - name: Install dependencies
         run: cd backend && composer install --prefer-dist --no-progress
       - name: Run Psalm
-        run: .backend/vendor/bin/psalm
+        run: ./backend/vendor/bin/psalm
