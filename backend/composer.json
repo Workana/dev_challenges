@@ -1,6 +1,7 @@
 {
     "name": "workana/hiring_challenge",
     "description": "Workana Dev Challenge",
+    "license": "GPL-3.0-or-later",
     "require": {
         "php": "^8.0",
         "ext-json": "*",
