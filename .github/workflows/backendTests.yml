@@ -26,4 +26,4 @@ jobs:
       - name: Install dependencies
         run: cd backend && composer install --prefer-dist --no-progress
       - name: Execute tests (Unit and Feature tests) via PHPUnit
-        run: backend/vendor/bin/phpunit
+        run: cd backend && ./vendor/bin/phpunit
