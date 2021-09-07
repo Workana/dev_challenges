@@ -36,12 +36,16 @@ class VoteIssueAdapter
         }
         
         if (!$vote) {
-            throw new InvalidBodyException('Missing argument: ' . self::ISSUE_PARAM);
+            throw new InvalidBodyException('Missing argument: ' . self::VOTE_PARAM);
+        }
+
+        if ($vote !== '?') {
+            $vote = (int) $vote;
         }
 
         return new VoteIssueCommand(
             (int) $number,
-            (int) $vote
+            $vote
         );
     }
 }

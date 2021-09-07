@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace tests\Application\Handlers\Auth;
+namespace Tests\Unit\Application\Handlers\Auth;
 
 use App\Application\Commands\Auth\RegisterUserCommand;
 use App\Application\Handlers\Auth\RegisterUserHandler;

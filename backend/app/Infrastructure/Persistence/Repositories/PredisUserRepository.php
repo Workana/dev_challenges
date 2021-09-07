@@ -26,7 +26,7 @@ class PredisUserRepository implements UserRepository
     {
         $users = $this->client->get('users');
         if ($users) {
-            $users =json_decode($users);
+            $users =json_decode($users, true);
                 if (!in_array($name, $users)){
                     return null;
                 }
@@ -38,7 +38,7 @@ class PredisUserRepository implements UserRepository
     {
         $users = $this->client->get('users');
         if ($users) {
-            $users =json_decode($users);
+            $users =json_decode($users, true);
             if (in_array($user->getName(), $users)){
                 throw new DuplicateEntityException('Name already on database');
             }

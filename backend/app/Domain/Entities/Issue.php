@@ -41,6 +41,11 @@ class Issue
         return $this->userStatuses;
     }
 
+    public function setUserStatuses(array $userStatuses): void
+    {
+        $this->userStatuses = $userStatuses;
+    }
+
     public function getStatus(): string
     {
         return $this->status;

@@ -20,7 +20,7 @@ class JoinIssueHandler
         private WebSocketService $webSocketService
     ) { }
     
-    public function handle(JoinIssueCommand $command): void
+    public function handle(JoinIssueCommand $command): ?Issue
     {
         $issue = $this->issueRepository->findByNumber($command->getNumber());
 
@@ -52,5 +52,7 @@ class JoinIssueHandler
             'user-joined',
             $issue->toArray()
         );
+
+        return $issue;
     }
 }

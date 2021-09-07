@@ -11,6 +11,50 @@ class MockIssueRepository implements IssueRepository
 {
     public function findByNumber(int $number): ?Issue
     {
+        if ($number === 1) {
+            return new Issue(
+                1,
+                [
+                    'David',
+                    'Agos'
+                ],
+                [
+                    [
+                        'user' => 'David',
+                        'status' => 'Voted',
+                        'vote' => 8
+                    ],
+                    [
+                        'user' => 'Agos',
+                        'status' => 'Waiting',
+                        'vote' => null
+                    ]
+                ],
+                'Voting'
+            );
+        }
+        if ($number === 2) {
+            return new Issue(
+                2,
+                [
+                    'David',
+                    'Agos'
+                ],
+                [
+                    [
+                        'user' => 'David',
+                        'status' => 'Voted',
+                        'vote' => 8
+                    ],
+                    [
+                        'user' => 'Agos',
+                        'status' => 'Voted',
+                        'vote' => 5
+                    ]
+                ],
+                'Finished'
+            );
+        }
         return null;
     }
 

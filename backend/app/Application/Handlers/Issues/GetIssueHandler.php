@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace App\Application\Handlers\Issues;
 
 use App\Application\Commands\Issues\GetIssueQuery;
+use App\Application\Exceptions\EntityNotFoundException;
 use App\Domain\Entities\Issue;
 use App\Domain\Enums\IssueStatuses;
+use App\Domain\Enums\UserIssueStatuses;
 use App\Domain\Repositories\IssueRepository;
 
 class GetIssueHandler
@@ -18,10 +20,22 @@ class GetIssueHandler
     public function handle(GetIssueQuery $query): ?Issue
     {
         $issue = $this->issueRepository->findByNumber($query->getNumber());
-        if ($issue && $issue->getStatus() !== IssueStatuses::FINISHED) {
+
+        if (!$issue) {
+            $number = $query->getNumber();
+            throw new EntityNotFoundException("Issue with number $number does not exist");
+        }
+
+        if ($issue->getStatus() !== IssueStatuses::FINISHED) {
+            $currentUserStatus = [];
             foreach ($issue->getUserStatuses() as $userStatuses) {
-                unset($userStatuses->vote);
+                if ($userStatuses['status'] !== UserIssueStatuses::PASED){
+                    unset($userStatuses['vote']);
+                }
+                $currentUserStatus[] = $userStatuses;
             }
+            
+            $issue->setUserStatuses($currentUserStatus);
         }
 
         return $issue;
