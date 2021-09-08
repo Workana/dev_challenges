@@ -5,17 +5,39 @@ declare(strict_types=1);
 namespace App\Application\Handlers\Issues;
 
 use App\Application\Commands\Issues\GetIssueQuery;
-use App\Infrastructure\Persistence\Repositories\PredisIssueRepository;
-use App\model\Entities\Issue;
+use App\Application\Exceptions\EntityNotFoundException;
+use App\Domain\Entities\Issue;
+use App\Domain\Enums\IssueStatuses;
+use App\Domain\Enums\UserIssueStatuses;
+use App\Domain\Repositories\IssueRepository;
 
 class GetIssueHandler
 {
     public function __construct(
-        private PredisIssueRepository $issueRepository
+        private IssueRepository $issueRepository
     ) { }
     
     public function handle(GetIssueQuery $query): ?Issue
     {
-        return $this->issueRepository->findByNumber($query->getNumber());
+        $issue = $this->issueRepository->findByNumber($query->getNumber());
+
+        if (!$issue) {
+            $number = $query->getNumber();
+            throw new EntityNotFoundException("Issue with number $number does not exist");
+        }
+
+        if ($issue->getStatus() !== IssueStatuses::FINISHED) {
+            $currentUserStatus = [];
+            foreach ($issue->getUserStatuses() as $userStatuses) {
+                if ($userStatuses['status'] !== UserIssueStatuses::PASED){
+                    unset($userStatuses['vote']);
+                }
+                $currentUserStatus[] = $userStatuses;
+            }
+            
+            $issue->setUserStatuses($currentUserStatus);
+        }
+
+        return $issue;
     }
 }

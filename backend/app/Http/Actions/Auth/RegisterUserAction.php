@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace app\Http\Actions\Auth;
+namespace App\Http\Actions\Auth;
 
 use App\Http\Adapters\Auth\RegisterUserAdapter;
 use App\Application\Handlers\Auth\RegisterUserHandler;

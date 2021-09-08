@@ -1,6 +1,6 @@
 <?php
 
-namespace App\model\Enums;
+namespace App\Domain\Enums;
 
 use PhpParser\Node\Stmt\Enum_;
 

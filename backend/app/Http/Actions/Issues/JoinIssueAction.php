@@ -19,7 +19,7 @@ class JoinIssueAction
     public function __invoke(Request $request, Response $response, array $args): Response
     {
         $command = $this->adapter->adapt($args);
-        $result = $this->handler->handle($command);
+        $this->handler->handle($command);
         return $response;
     }
 }

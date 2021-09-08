@@ -6,16 +6,14 @@ namespace App\Application\Exceptions;
 
 use Exception;
 
-class UnauthorizedException extends Exception
+class DuplicateEntityException extends Exception
 {
     private int $statusCode;
-    private string $responseMessage;
 
-    public function __construct()
+    public function __construct(private string $responseMessage)
     {
-        parent::__construct('Unauthorized');
-        $this->responseMessage = 'Unauthorized';
-        $this->statusCode = 401;
+        parent::__construct($responseMessage);
+        $this->statusCode = 403;
     }
 
     public function getStatusCode(): int

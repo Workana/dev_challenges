@@ -29,19 +29,23 @@ class VoteIssueAdapter
 
         $body = $request->getParsedBody();
         
-        if (key_exists(self::VOTE_PARAM, $body)) {
+        if ($body && key_exists(self::VOTE_PARAM, $body)) {
             $vote = $body[self::VOTE_PARAM] ?: null;
         } else {
             throw new InvalidBodyException('Missing argument: ' . self::VOTE_PARAM);
         }
         
         if (!$vote) {
-            throw new InvalidBodyException('Missing argument: ' . self::ISSUE_PARAM);
+            throw new InvalidBodyException('Missing argument: ' . self::VOTE_PARAM);
+        }
+
+        if ($vote !== '?') {
+            $vote = (int) $vote;
         }
 
         return new VoteIssueCommand(
             (int) $number,
-            (int) $vote
+            $vote
         );
     }
 }

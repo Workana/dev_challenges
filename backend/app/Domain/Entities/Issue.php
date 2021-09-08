@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\model\Entities;
+namespace App\Domain\Entities;
 
-use App\model\Enums\UserIssueStatuses;
+use App\Domain\Enums\UserIssueStatuses;
 
 class Issue
 {
@@ -39,6 +39,11 @@ class Issue
     public function getUserStatuses(): array
     {
         return $this->userStatuses;
+    }
+
+    public function setUserStatuses(array $userStatuses): void
+    {
+        $this->userStatuses = $userStatuses;
     }
 
     public function getStatus(): string

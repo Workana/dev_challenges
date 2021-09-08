@@ -8,7 +8,7 @@ class VoteIssueCommand
 {   
     public function __construct(
         private int $number,
-        private int $vote,
+        private int|string $vote,
     ) { }
 
     public function getNumber(): int
@@ -16,7 +16,7 @@ class VoteIssueCommand
         return $this->number;
     }
 
-    public function getVote(): int
+    public function getVote(): int|string
     {
         return $this->vote;
     }
