@@ -5,9 +5,12 @@ declare(strict_types=1);
 namespace App\Domain\Entities;
 
 use App\Domain\Enums\UserIssueStatuses;
+use DomainException;
 
 class Issue
 {
+    public const VOTE_PASSED = '?';
+
     public function __construct(
         private int $number,
         private array $joinedUsers,
@@ -28,6 +31,9 @@ class Issue
 
     public function addUser(User $user): void
     {
+        if (in_array($user->getName(), $this->joinedUsers)){
+            throw new DomainException("User already joined on issue number $this->number");
+        }
         $this->joinedUsers[] = $user->getName();
         $this->userStatuses[] = [
             'user' => $user->getName(),

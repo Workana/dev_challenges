@@ -37,9 +37,9 @@ class VoteIssueHandler
 
         $everyOneVoted = true;
         $currentUserStatus = [];
-        foreach ($issue->getUserStatuses() as $userStatuses){
+        foreach ($issue->getUserStatuses() as $userStatuses) {
             if ($userStatuses['user'] === $userName) {
-                if ($command->getVote() === '?') {
+                if ($command->getVote() === Issue::VOTE_PASSED) {
                     $userStatuses['status'] = UserIssueStatuses::PASED;
                 } else {
                     $userStatuses['status'] = UserIssueStatuses::VOTED;

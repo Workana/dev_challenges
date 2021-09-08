@@ -26,7 +26,7 @@ class AuthenticateMiddleware
             throw new UnauthorizedException();
         }
 
-        $decodedToken = JWT::decode($token[0], $_ENV['JWT_SECRET'], array_keys(JWT::$supported_algs));
+        $decodedToken = JWT::decode($token[0], getenv('JWT_SECRET'), array_keys(JWT::$supported_algs));
 
         try {
             $currentUser = $this->userRepository->findByName($decodedToken->username);

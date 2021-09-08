@@ -27,7 +27,7 @@ class RegisterUserHandler
         $jwt = JWT::encode([
             'username' => $user->getName(),
             'created_at' => date('U')
-        ], $_ENV['JWT_SECRET']);
+        ], getenv('JWT_SECRET'));
 
         return $jwt;
     }

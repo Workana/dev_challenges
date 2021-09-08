@@ -15,9 +15,9 @@ class PredisIssueRepository implements IssueRepository
     public function __construct()
     {
         $this->client = new Client([
-            'scheme' => $_ENV['REDIS_SCHEME'],
-            'host'   => $_ENV['REDIS_HOST'],
-            'port'   => $_ENV['REDIS_PORT'],
+            'scheme' => getenv('REDIS_SCHEME'),
+            'host'   => getenv('REDIS_HOST'),
+            'port'   => getenv('REDIS_PORT'),
         ]);
     }
 
