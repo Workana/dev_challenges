@@ -6,7 +6,6 @@ namespace App\Http\Actions\Auth;
 
 use App\Application\Commands\Auth\RegisterUserCommand;
 use App\Application\Exceptions\InvalidBodyException;
-use App\Http\Adapters\Auth\RegisterUserAdapter;
 use App\Application\Handlers\Auth\RegisterUserHandler;
 use App\Http\Actions\BaseAction;
 use Psr\Http\Message\ServerRequestInterface as Request;
