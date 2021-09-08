@@ -11,6 +11,7 @@ use App\Domain\Entities\Issue;
 use App\Domain\Enums\IssueStatuses;
 use App\Domain\Enums\UserIssueStatuses;
 use App\Domain\Repositories\IssueRepository;
+use DomainException;
 use RuntimeException;
 
 class JoinIssueHandler
@@ -46,8 +47,15 @@ class JoinIssueHandler
                 ],
                 IssueStatuses::VOTING
             );
-        } elseif (!in_array($user->getName(), $issue->getUsers())) {
-            $issue->addUser($user);
+        } else {
+            if ($issue->getStatus() === IssueStatuses::FINISHED) {
+                $number = $issue->getNumber();
+                throw new DomainException("Issue number $number is finished", 403);
+            }
+            if (!in_array($user->getName(), $issue->getUsers())) {
+                $issue->addUser($user);
+            }
+
         }
         $this->issueRepository->save($issue);
 

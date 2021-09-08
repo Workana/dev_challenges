@@ -30,8 +30,9 @@ class PredisUserRepository implements UserRepository
             if (!in_array($name, $users)){
                 return null;
             }
+            return new User($name);
         }
-        return new User($name);
+        return null;
     }
 
     public function save(User $user): void

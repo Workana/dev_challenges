@@ -10,6 +10,7 @@ use App\Application\Services\CurrentUserService;
 use App\Domain\Entities\Issue;
 use App\Domain\Entities\User;
 use App\Infrastructure\Persistence\MockRepositories\MockIssueRepository;
+use DomainException;
 use PHPUnit\Framework\TestCase;
 use Tests\Utils\MockWebSocketService;
 
@@ -97,6 +98,19 @@ final class JoinIssueHandlerTest extends TestCase
                 ),
                 $result
         );
+    }
+
+    public function testCanNotJoinFinishedIssue(): void
+    {
+        $this->initialize();
+
+        $command = new JoinIssueCommand(
+            2
+        );
+
+        $this->expectException(DomainException::class);
+        
+        $this->sut->handle($command);
     }
 }
 

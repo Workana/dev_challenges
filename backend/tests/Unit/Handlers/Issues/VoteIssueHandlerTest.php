@@ -60,7 +60,8 @@ final class VoteIssueHandlerTest extends TestCase
                         'vote' => 8
                     ],
                 ],
-                'Finished'
+                'Finished',
+                8
                 ),
                 $result
         );
@@ -96,7 +97,8 @@ final class VoteIssueHandlerTest extends TestCase
                         'vote' => null
                     ],
                 ],
-                'Finished'
+                'Finished',
+                8
                 ),
                 $result
         );

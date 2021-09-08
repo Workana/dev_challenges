@@ -84,7 +84,8 @@ final class GetIssueHandlerTest extends TestCase
                         'vote' => 5
                     ],
                 ],
-                'Finished'
+                'Finished',
+                6.5
             ),
             $result
         );

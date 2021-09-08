@@ -15,7 +15,8 @@ class Issue
         private int $number,
         private array $joinedUsers,
         private array $userStatuses,
-        private string $status
+        private string $status,
+        private ?float $avg = null
     ) {
     }
 
@@ -64,12 +65,31 @@ class Issue
 
     public function toArray(): array
     {
-        return [
+        $result = [
             'number' => $this->getNumber(),
             'users' => $this->getUsers(),
             'userStatuses' => $this->getUserStatuses(),
-            'status' => $this->getStatus()
+            'status' => $this->getStatus(),
         ];
+        
+        if ($this->avg) {
+            $result['avg'] = number_format($this->avg, 2);
+        }
+        
+        return $result;
     }
 
+    public function calculateAvg(): void
+    {
+        $votes = 0;
+        $voters = 0;
+        foreach ($this->userStatuses as $userStatuses) {
+            if ($userStatuses['status'] !== UserIssueStatuses::PASED) {
+                $voters++;
+                $votes += $userStatuses['vote'];
+            }
+        }
+
+        $this->avg = $votes / $voters;
+    }
 }

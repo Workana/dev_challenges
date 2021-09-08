@@ -56,6 +56,7 @@ class VoteIssueHandler
 
         if (count($issue->getUsers()) > 0 && $everyOneVoted) {
             $issue->setStatus(IssueStatuses::FINISHED);
+            $issue->calculateAvg();
         }
 
         $this->issueRepository->save($issue);
