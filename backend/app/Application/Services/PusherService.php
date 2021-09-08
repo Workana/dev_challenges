@@ -25,6 +25,6 @@ class PusherService implements WebSocketService
 
     public function pushEvent(string $channel = 'default', string $event = 'default', array $data = []): void
     {
-        // $this->pusher->trigger($channel, $event, $data);
+        $this->pusher->trigger($channel, $event, $data);
     }
 }
