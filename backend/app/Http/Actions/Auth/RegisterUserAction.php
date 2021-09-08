@@ -17,7 +17,6 @@ class RegisterUserAction extends BaseAction
     private const USERNAME_PARAM = 'username';
 
     public function __construct(
-        private RegisterUserAdapter $adapter,
         private RegisterUserHandler $handler
     ) { }
     
