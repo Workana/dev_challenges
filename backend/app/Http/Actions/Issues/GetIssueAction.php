@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Http\Actions\Issues;
 
 use App\Application\Commands\Issues\GetIssueQuery;
-use App\Application\Exceptions\InvalidBodyException;
 use App\Application\Handlers\Issues\GetIssueHandler;
 use App\Http\Actions\BaseAction;
+use Assert\Assertion;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 
@@ -21,19 +21,13 @@ class GetIssueAction extends BaseAction
     
     public function __invoke(Request $request, Response $response, array $args): Response
     {
-        if (key_exists(self::ISSUE_PARAM, $args)) {
-            $number = $args[self::ISSUE_PARAM] ?: null;
-        } else {
-            throw new InvalidBodyException('Missing argument: ' . self::ISSUE_PARAM);
-        }
-        
-        if (!$number) {
-            throw new InvalidBodyException('Missing argument: ' . self::ISSUE_PARAM);
-        }
+        Assertion::keyExists($args, self::ISSUE_PARAM);
+        Assertion::notNull($args[self::ISSUE_PARAM]);
+        Assertion::integerish($args[self::ISSUE_PARAM]);
 
         $result = $this->handler->handle(
             new GetIssueQuery(
-                (int) $number
+                (int) $args[self::ISSUE_PARAM]
             )
         );
         if (!$result) {

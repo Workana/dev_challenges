@@ -8,6 +8,7 @@ use App\Application\Commands\Issues\VoteIssueCommand;
 use App\Application\Exceptions\InvalidBodyException;
 use App\Application\Handlers\Issues\VoteIssueHandler;
 use App\Domain\Entities\Issue;
+use Assert\Assertion;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 
@@ -22,38 +23,27 @@ class VoteIssueAction
     
     public function __invoke(Request $request, Response $response, array $args): Response
     {
-        if (key_exists(self::ISSUE_PARAM, $args)) {
-            $number = $args[self::ISSUE_PARAM] ?: null;
-        } else {
-            throw new InvalidBodyException('Missing argument: ' . self::ISSUE_PARAM);
-        }
-
-        if (!$number) {
-            throw new InvalidBodyException('Missing argument: ' . self::ISSUE_PARAM);
-        }
-
+        Assertion::keyExists($args, self::ISSUE_PARAM);
+        Assertion::notNull($args[self::ISSUE_PARAM]);
+        Assertion::integerish($args[self::ISSUE_PARAM]);
+        
         $body = $request->getParsedBody();
         
-        if ($body && key_exists(self::VOTE_PARAM, $body)) {
-            $vote = $body[self::VOTE_PARAM] ?: null;
-        } else {
-            throw new InvalidBodyException('Missing argument: ' . self::VOTE_PARAM);
-        }
+        Assertion::keyExists($args, self::VOTE_PARAM);
+        Assertion::notNull($args[self::VOTE_PARAM]);
         
-        if (!$vote) {
-            throw new InvalidBodyException('Missing argument: ' . self::VOTE_PARAM);
-        }
-
-        if ($vote !== Issue::VOTE_PASSED) {
-            $vote = (int) $vote;
+        if ($body[self::VOTE_PARAM] !== Issue::VOTE_PASSED) {
+            Assertion::integerish($body[self::VOTE_PARAM]);
+            $vote = (int) $body[self::VOTE_PARAM];
         }
 
         $this->handler->handle(
             new VoteIssueCommand(
-                (int) $number,
+                (int) $args[self::ISSUE_PARAM],
                 $vote
             )
         );
+        
         return $response;
     }
 }
