@@ -1,6 +1,7 @@
 export default {
-    userIsRegistered (state) {
+    userIsRegistered (state, username) {
         state.userIsRegistered = true;
+        state.username = username;
     },
     registerFailed (state) {
         state.userIsRegistered = false;

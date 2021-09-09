@@ -3,6 +3,7 @@ import mutations from '../mutations/authMutations'
 
 const state = () => ({
     userIsRegistered: false,
+    username: '',
 })
 
 export default {

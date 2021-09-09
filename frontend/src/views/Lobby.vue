@@ -22,12 +22,12 @@ export default {
   data() {
     return {
       validVotes: [1,2,3,5,8,13,20,40,'?'],
+      issue: null,
     };
   },
   computed: {
     you() { return this.members[0] },
     ...mapState({
-                issue: state => state.lobby.issue,
                 members: state => state.lobby.members,
                 issueStatus: state => state.lobby.issueStatus
     }),
@@ -39,22 +39,23 @@ export default {
     if(!authStorage.getSession()){
       this.$router.push('/signup')
     }
-    this.$store.dispatch('lobby/getIssue')
+    this.issue = this.$route.params.issue;
+    this.$store.dispatch('lobby/getIssue', this.issue)
   },
   methods: {
     subscribe() {
       let pusher = new Pusher(process.env.VUE_APP_PUSHER_KEY, { cluster: process.env.VUE_APP_PUSHER_CLUSTER });
-      pusher.subscribe('222')
+      pusher.subscribe(this.$route.params.issue);
       pusher.bind('user-joined', data => {
-        console.log(data, 'sadsas');
+        this.$store.dispatch('lobby/updateIssue', data)
+      });
+      pusher.bind('user-voted', data => {
+        console.log(data, 'user-voted')
+         this.$store.dispatch('lobby/updateIssue', data)
       })
     },
     emitVote(vote) {
-      if (vote === this.you.vote) {
-        this.you.vote = false;
-        return;
-      }
-      this.you.vote = vote;
+      this.$store.dispatch('lobby/vote', {issue: this.issue, vote})
     },
   }
 }

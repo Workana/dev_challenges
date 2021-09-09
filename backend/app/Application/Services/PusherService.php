@@ -13,12 +13,12 @@ class PusherService implements WebSocketService
     public function __construct()
     {
         $this->pusher = new Pusher(
-            $_ENV['PUSHER_KEY'],
-            $_ENV['PUSHER_SECRET'],
-            $_ENV['PUSHER_APP_ID'],
+            getenv('PUSHER_KEY'),
+            getenv('PUSHER_SECRET'),
+            getenv('PUSHER_APP_ID'),
             [
-                'cluster' => $_ENV['PUSHER_CLUSTER'],
-                'useTLS' => true
+                'cluster' => getenv('PUSHER_CLUSTER'),
+                'useTLS' => getenv('PUSHER_USE_TLS')
             ]
         );
     }

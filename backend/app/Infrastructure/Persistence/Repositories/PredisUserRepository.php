@@ -16,9 +16,9 @@ class PredisUserRepository implements UserRepository
     public function __construct()
     {
         $this->client = new Client([
-            'scheme' => $_ENV['REDIS_SCHEME'],
-            'host'   => $_ENV['REDIS_HOST'],
-            'port'   => $_ENV['REDIS_PORT'],
+            'scheme' => getenv('REDIS_SCHEME'),
+            'host'   => getenv('REDIS_HOST'),
+            'port'   => getenv('REDIS_PORT'),
         ]);
     }
 
@@ -27,18 +27,19 @@ class PredisUserRepository implements UserRepository
         $users = $this->client->get('users');
         if ($users) {
             $users =json_decode($users, true);
-                if (!in_array($name, $users)){
-                    return null;
-                }
+            if (!in_array($name, $users)){
+                return null;
+            }
+            return new User($name);
         }
-        return new User($name);
+        return null;
     }
 
     public function save(User $user): void
     {
         $users = $this->client->get('users');
         if ($users) {
-            $users =json_decode($users, true);
+            $users = json_decode($users, true);
             if (in_array($user->getName(), $users)){
                 throw new DuplicateEntityException('Name already on database');
             }

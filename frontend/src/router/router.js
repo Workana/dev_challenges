@@ -18,7 +18,7 @@ const routes = [
         component: SignUp
     },
     {
-        path: '/lobby',
+        path: '/lobby/:issue',
         name: 'Lobby',
         component: Lobby
     }

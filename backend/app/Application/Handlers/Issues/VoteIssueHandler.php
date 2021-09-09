@@ -27,19 +27,19 @@ class VoteIssueHandler
         
         $number = $command->getNumber();
         if (!$issue) {    
-            throw new DomainException("Issue $number not found");
+            throw new DomainException("Issue $number not found", 404);
         }
         
         $userName = $this->currentUserService->getUser()->getName();
         if (!in_array($this->currentUserService->getUser()->getName(), $issue->getUsers())) {
-            throw new DomainException("User $userName not joined on issue number $number");
+            throw new DomainException("User $userName not joined on issue number $number", 403);
         }
 
         $everyOneVoted = true;
         $currentUserStatus = [];
-        foreach ($issue->getUserStatuses() as $userStatuses){
+        foreach ($issue->getUserStatuses() as $userStatuses) {
             if ($userStatuses['user'] === $userName) {
-                if ($command->getVote() === '?') {
+                if ($command->getVote() === Issue::VOTE_PASSED) {
                     $userStatuses['status'] = UserIssueStatuses::PASED;
                 } else {
                     $userStatuses['status'] = UserIssueStatuses::VOTED;
@@ -56,6 +56,7 @@ class VoteIssueHandler
 
         if (count($issue->getUsers()) > 0 && $everyOneVoted) {
             $issue->setStatus(IssueStatuses::FINISHED);
+            $issue->calculateAvg();
         }
 
         $this->issueRepository->save($issue);

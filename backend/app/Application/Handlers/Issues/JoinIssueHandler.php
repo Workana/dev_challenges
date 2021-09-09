@@ -11,6 +11,8 @@ use App\Domain\Entities\Issue;
 use App\Domain\Enums\IssueStatuses;
 use App\Domain\Enums\UserIssueStatuses;
 use App\Domain\Repositories\IssueRepository;
+use DomainException;
+use RuntimeException;
 
 class JoinIssueHandler
 {
@@ -22,17 +24,23 @@ class JoinIssueHandler
     
     public function handle(JoinIssueCommand $command): ?Issue
     {
+        $user = $this->currentUserService->getUser();
+
+        if (!$user) {
+            throw new RuntimeException('Current user not established', 409); 
+        }
+
         $issue = $this->issueRepository->findByNumber($command->getNumber());
 
         if (!$issue) {
             $issue = new Issue(
                 $command->getNumber(),
                 [
-                    $this->currentUserService->getUser()->getName()
+                    $user->getName()
                 ],
                 [
                     [
-                        'user' => $this->currentUserService->getUser()->getName(),
+                        'user' => $user->getName(),
                         'status' => UserIssueStatuses::WAITING,
                         'vote' => null
                     ],
@@ -40,9 +48,12 @@ class JoinIssueHandler
                 IssueStatuses::VOTING
             );
         } else {
-            if (!in_array($this->currentUserService->getUser()->getName(), $issue->getUsers())){
-                $issue->addUser($this->currentUserService->getUser());
+            if ($issue->getStatus() === IssueStatuses::FINISHED) {
+                $number = $issue->getNumber();
+                throw new DomainException("Issue number $number is finished", 403);
             }
+
+            $issue->addUser($user);
         }
         $this->issueRepository->save($issue);
 

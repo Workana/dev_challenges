@@ -52,7 +52,8 @@ class MockIssueRepository implements IssueRepository
                         'vote' => 5
                     ]
                 ],
-                'Finished'
+                'Finished',
+                6.5
             );
         }
         return null;

@@ -5,14 +5,19 @@ declare(strict_types=1);
 namespace App\Domain\Entities;
 
 use App\Domain\Enums\UserIssueStatuses;
+use Assert\Assertion;
+use DomainException;
 
 class Issue
 {
+    public const VOTE_PASSED = '?';
+
     public function __construct(
         private int $number,
         private array $joinedUsers,
         private array $userStatuses,
-        private string $status
+        private string $status,
+        private ?float $avg = null
     ) {
     }
 
@@ -28,6 +33,8 @@ class Issue
 
     public function addUser(User $user): void
     {
+        Assertion::notInArray($user->getName(), $this->joinedUsers, "User already joined on issue number $this->number");
+
         $this->joinedUsers[] = $user->getName();
         $this->userStatuses[] = [
             'user' => $user->getName(),
@@ -58,12 +65,31 @@ class Issue
 
     public function toArray(): array
     {
-        return [
+        $result = [
             'number' => $this->getNumber(),
             'users' => $this->getUsers(),
             'userStatuses' => $this->getUserStatuses(),
-            'status' => $this->getStatus()
+            'status' => $this->getStatus(),
         ];
+        
+        if ($this->avg) {
+            $result['avg'] = number_format($this->avg, 2);
+        }
+        
+        return $result;
     }
 
+    public function calculateAvg(): void
+    {
+        $votes = 0;
+        $voters = 0;
+        foreach ($this->userStatuses as $userStatuses) {
+            if ($userStatuses['status'] !== UserIssueStatuses::PASED) {
+                $voters++;
+                $votes += $userStatuses['vote'];
+            }
+        }
+
+        $this->avg = $votes / $voters;
+    }
 }

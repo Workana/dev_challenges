@@ -15,9 +15,9 @@ class PredisIssueRepository implements IssueRepository
     public function __construct()
     {
         $this->client = new Client([
-            'scheme' => $_ENV['REDIS_SCHEME'],
-            'host'   => $_ENV['REDIS_HOST'],
-            'port'   => $_ENV['REDIS_PORT'],
+            'scheme' => getenv('REDIS_SCHEME'),
+            'host'   => getenv('REDIS_HOST'),
+            'port'   => getenv('REDIS_PORT'),
         ]);
     }
 
@@ -26,11 +26,17 @@ class PredisIssueRepository implements IssueRepository
         $exists = $this->client->exists($number);
         if ($exists) {
             $issue = json_decode($this->client->get($number), true);
+            if (key_exists('avg', $issue)) {
+                $avg = (float) $issue['avg'];
+            } else {
+                $avg = null;
+            }
             return new Issue(
                 $issue['number'],
                 $issue['users'],
                 $issue['userStatuses'],
-                $issue['status']
+                $issue['status'],
+                $avg
             );
         }
         return null;

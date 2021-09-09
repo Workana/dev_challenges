@@ -3,7 +3,7 @@
     <ul id="memberList">
       <li :key="member.name" v-for="member in this.members">
         <div class="status">{{member.vote ? '✅' : ''}}</div>
-        <div class="name">{{member.user}}</div>
+        <div class="name">{{member.user}}{{member.user === you ? ' (you)' : null}}</div>
         <div class="vote" v-if="issueStatus === 'Voting'">-</div>
         <div class="vote" v-else>{{member.vote}}</div>
       </li>
@@ -12,9 +12,16 @@
 </template>
 
 <script>
+import {mapState} from "vuex";
+
 export default {
   name: "MembersContainer",
   props: {members: Array, issueStatus: String},
+  computed: {
+    ...mapState({
+      you: state => state.auth.username,
+    }),
+  },
 }
 </script>
 

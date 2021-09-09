@@ -19,7 +19,7 @@ class RegisterUserHandler
     public function handle(RegisterUserCommand $command): string
     {     
         if ($this->userRepository->findByName($command->getName())){
-            throw new DomainException('User with the same name already exists on database');
+            throw new DomainException('User with the same name already exists on database', 403);
         }
         $user = new User($command->getName());
         $this->userRepository->save($user);
@@ -27,7 +27,7 @@ class RegisterUserHandler
         $jwt = JWT::encode([
             'username' => $user->getName(),
             'created_at' => date('U')
-        ], $_ENV['JWT_SECRET']);
+        ], getenv('JWT_SECRET'));
 
         return $jwt;
     }

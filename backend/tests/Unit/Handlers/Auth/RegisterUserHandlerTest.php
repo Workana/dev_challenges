@@ -32,7 +32,7 @@ final class RegisterUserHandlerTest extends TestCase
         
         $result = $this->sut->handle($command);
 
-        $decodedToken = JWT::decode($result, $_ENV['JWT_SECRET'], array_keys(JWT::$supported_algs));
+        $decodedToken = JWT::decode($result, getenv('JWT_SECRET'), array_keys(JWT::$supported_algs));
 
         $this->assertEquals('David', $decodedToken->username);
     }
