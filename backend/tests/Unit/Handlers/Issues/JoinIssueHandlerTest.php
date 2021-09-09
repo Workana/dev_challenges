@@ -10,6 +10,7 @@ use App\Application\Services\CurrentUserService;
 use App\Domain\Entities\Issue;
 use App\Domain\Entities\User;
 use App\Infrastructure\Persistence\MockRepositories\MockIssueRepository;
+use Assert\AssertionFailedException;
 use DomainException;
 use PHPUnit\Framework\TestCase;
 use Tests\Utils\MockWebSocketService;
@@ -18,10 +19,10 @@ final class JoinIssueHandlerTest extends TestCase
 {
     private JoinIssueHandler $sut;
 
-    public function initialize()
+    public function initialize(?string $name = 'AnotherUser')
     {
         $currentUserService = new CurrentUserService();
-        $currentUserService->setUser(new User('AnotherUser'));
+        $currentUserService->setUser(new User($name));
 
         $this->sut = new JoinIssueHandler(
             $currentUserService,
@@ -109,6 +110,19 @@ final class JoinIssueHandlerTest extends TestCase
         );
 
         $this->expectException(DomainException::class);
+        
+        $this->sut->handle($command);
+    }
+
+    public function testCanNotJoinTwiceAnIssue(): void
+    {
+        $this->initialize('David');
+
+        $command = new JoinIssueCommand(
+            1
+        );
+
+        $this->expectException(AssertionFailedException::class);
         
         $this->sut->handle($command);
     }

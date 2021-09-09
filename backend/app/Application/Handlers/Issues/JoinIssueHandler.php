@@ -52,10 +52,8 @@ class JoinIssueHandler
                 $number = $issue->getNumber();
                 throw new DomainException("Issue number $number is finished", 403);
             }
-            if (!in_array($user->getName(), $issue->getUsers())) {
-                $issue->addUser($user);
-            }
 
+            $issue->addUser($user);
         }
         $this->issueRepository->save($issue);
 
