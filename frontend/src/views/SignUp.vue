@@ -2,7 +2,7 @@
   <div>
     <h3>Register</h3>
     <form @submit.prevent="signUp">
-      <input type="text" v-model="username" placeholder="Enter your name"/>
+      <input required type="text" v-model="username" placeholder="Enter your name"/>
       <button type="submit">Register</button>
     </form>
   </div>

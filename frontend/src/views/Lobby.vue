@@ -14,6 +14,7 @@ import { mapState } from 'vuex'
 import VoteCardContainer from "../components/molecules/VoteCardContainer";
 import MembersContainer from "../components/molecules/MembersContainer";
 import authStorage from "../services/localStorage/authStorage";
+import Pusher from 'pusher-js';
 
 export default {
   name: 'Lobby',
@@ -27,18 +28,27 @@ export default {
     you() { return this.members[0] },
     ...mapState({
                 issue: state => state.lobby.issue,
-               members: state => state.lobby.members,
+                members: state => state.lobby.members,
                 issueStatus: state => state.lobby.issueStatus
     }),
   },
+  created () {
+    this.subscribe();
+  },
   mounted() {
-    authStorage.setSession('fdggfdfdfgdfdgfdgf')
-    if(authStorage.getSession() === ''){
+    if(!authStorage.getSession()){
       this.$router.push('/signup')
     }
     this.$store.dispatch('lobby/getIssue')
   },
   methods: {
+    subscribe() {
+      let pusher = new Pusher(process.env.VUE_APP_PUSHER_KEY, { cluster: process.env.VUE_APP_PUSHER_CLUSTER });
+      pusher.subscribe('222')
+      pusher.bind('user-joined', data => {
+        console.log(data, 'sadsas');
+      })
+    },
     emitVote(vote) {
       if (vote === this.you.vote) {
         this.you.vote = false;

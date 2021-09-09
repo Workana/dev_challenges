@@ -1,4 +1,5 @@
 import api from "./api";
+import {isError} from "../../helpers/isError";
 
 export default {
     async signUp(username) {
@@ -10,7 +11,9 @@ export default {
         } catch (err) {
             response = err;
         }
-        const { status } = response;
-        console.log(status);
+        const { status, data } = response;
+        if (!isError(status)) {
+            return data.payload[0];
+        }
     }
 }

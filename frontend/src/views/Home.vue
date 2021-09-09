@@ -1,10 +1,12 @@
 <template>
   <div id="container">
       <h3>Join room</h3>
-      <input placeholder="Enter an issue number" v-model="issue"/>
-      <button @click="joinLobby">
-        Join
-      </button>
+      <form @submit.prevent="joinLobby">
+        <input required type="number" placeholder="Enter an issue number" v-model="issue"/>
+        <button type="submit">
+          Join
+        </button>
+      </form>
   </div>
 </template>
 
@@ -25,14 +27,14 @@ export default {
     }),
   },
   mounted() {
-    if(authStorage.getSession() === ''){
+    if(!authStorage.getSession()){
       this.$router.push('/signup')
     }
   },
   methods: {
     joinLobby()
     {
-
+      this.$store.dispatch('lobby/joinIssue', this.issue);
     }
   },
 }

@@ -85,7 +85,7 @@ class ApiFetch {
                 baseURL: this.apiUrl(),
                 url: `${requestData.endpoint}`,
                 data: requestData.body ? requestData.body : null,
-                headers: { ...requestData.customHeaders, authorization: authStorage.getSession() },
+                headers: { ...requestData.customHeaders, Authorization: authStorage.getSession() },
             }).catch(error => {
                 errorHandler(error.response);
                 reject(error.response);
