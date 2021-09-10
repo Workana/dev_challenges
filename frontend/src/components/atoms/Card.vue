@@ -1,5 +1,5 @@
 <template>
-  <div :class="{selected: this.selected}" @click="$emit('selectCard')">
+  <div :class="{selected: this.selected, disabled: this.disabled}" @click="!disabled ? $emit('selectCard') : null">
     <slot></slot>
   </div>
 </template>
@@ -7,7 +7,7 @@
 <script>
 export default {
   name: "Card",
-  props: ['selected'],
+  props: ['selected', 'disabled'],
 }
 </script>
 
@@ -17,7 +17,6 @@ div {
   cursor: pointer;
   height: 100px;
   width: 100px;
-  margin: 0;
   padding: 30px 0;
   border-radius: 9px;
   box-shadow: 2px 2px 2px #000;
@@ -31,5 +30,8 @@ div {
 div.selected {
   font-size: 33px;
   background: #132a55;
+}
+div.disabled {
+  cursor: default;
 }
 </style>

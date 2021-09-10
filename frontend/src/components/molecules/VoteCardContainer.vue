@@ -1,7 +1,7 @@
 <template>
     <ul id="voteList">
       <li v-for="vote in validVotes" :key="vote">
-        <Card v-bind:selected="vote === cardVoted" @selectCard="selectCard(vote)">{{vote}}</Card>
+        <Card v-bind:selected="vote === cardVoted" v-bind:disabled="issueStatus === 'Finished'" @selectCard="selectCard(vote)">{{vote}}</Card>
       </li>
     </ul>
 </template>
@@ -11,7 +11,7 @@ import Card from "../atoms/Card";
 export default {
   name: "VoteCardContainer",
   components: {Card},
-  props: {validVotes: Array},
+  props: {validVotes: Array, issueStatus: String},
   data() {
     return {
       cardVoted: null,

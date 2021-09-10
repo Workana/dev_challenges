@@ -18,14 +18,14 @@ export default {
 <style>
 body {
   box-sizing: border-box;
-  font-family: Arial;
+  font-family: Arial, serif;
   margin: 0;
   background: #fff;
   text-align: center;
 }
 
 h1 {
-  margin: 0px;
+  margin: 0;
   color: #e76f51;
   text-shadow: 2px 2px 2px #ccc;
 }

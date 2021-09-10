@@ -2,7 +2,7 @@
   <div id="container">
       <h3>Welcome {{you}}. Join a new issue</h3>
       <form @submit.prevent="joinLobby">
-        <input required type="number" placeholder="Enter an issue number" v-model="issue"/>
+        <input required type="number" min="1" placeholder="Enter an issue number" v-model="issue"/>
         <button type="submit">
           Join
         </button>

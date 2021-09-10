@@ -1,30 +1,4 @@
 import api from "./api";
-import {isError} from "../../helpers/isError";
-
-/**
- * Mocking client-server processing
- */
-
-// const issue = {
-//     "number": 250,
-//     "users": [
-//         "agostinaaa",
-//         "davidddd"
-//     ],
-//     "userStatuses": [
-//         {
-//             "user": "agostinaaa",
-//             "status": "Waiting",
-//             "vote": null
-//         },
-//         {
-//             "user": "davidddd",
-//             "status": "Waiting",
-//             "vote": 8
-//         }
-//     ],
-//     "status": "Voting"
-// }
 
 export default {
     async joinIssue(issue) {
@@ -35,10 +9,7 @@ export default {
         } catch (err) {
             response = err;
         }
-        const { status } = response;
-        if (!isError(status)) {
-            console.log(response);
-        }
+        return response;
     },
 
     async getIssue(issue) {

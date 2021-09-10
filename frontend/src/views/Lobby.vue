@@ -1,11 +1,11 @@
 <template>
   <div id="container">
-    <VoteCardContainer v-bind:valid-votes="validVotes" @emitVote="emitVote"/>
+    <VoteCardContainer v-bind:valid-votes="validVotes" v-bind:issue-status="issueStatus" @emitVote="emitVote"/>
     <h3 v-if="this.issueStatus === 'Voting'">
       Voting issue #{{issue}}
     </h3>
     <h3 v-else>
-      Issue #{{issue}} voted • Average: {{avg !== null ? avg : null}}
+      Issue #{{issue}} voted <span v-show="avg !== null">• Average: {{avg}}</span>
     </h3>
     <button v-show="this.issueStatus === 'Finished'" @click="$router.push('/')">Join another issue</button>
     <h3>Connected {{members.length}}</h3>
@@ -45,7 +45,7 @@ export default {
     if(!authStorage.getSession()){
       this.$router.push('/signup')
     }
-    this.$store.dispatch('lobby/getIssue', this.$route.params.issue)
+    this.$store.dispatch('lobby/getIssue', this.issue)
   },
   methods: {
     subscribe() {
@@ -55,7 +55,6 @@ export default {
         this.$store.dispatch('lobby/updateIssue', data)
       });
       pusher.bind('user-voted', data => {
-        console.log(data)
          this.$store.dispatch('lobby/updateIssue', data)
       })
     },
