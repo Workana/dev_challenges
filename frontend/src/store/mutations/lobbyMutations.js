@@ -5,5 +5,8 @@ export default {
         state.issue = number;
         state.members = userStatuses;
         state.issueStatus = status;
+        if(issue.avg){
+            state.avg = issue.avg;
+        }
     },
 }

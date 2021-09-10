@@ -5,7 +5,7 @@
       Voting issue #{{issue}}
     </h3>
     <h3 v-else>
-      Issue #{{issue}} voted • Average:
+      Issue #{{issue}} voted • Average: {{avg !== null ? avg : null}}
     </h3>
     <button v-show="this.issueStatus === 'Finished'" @click="$router.push('/')">Join another issue</button>
     <h3>Connected {{members.length}}</h3>
@@ -33,7 +33,8 @@ export default {
     you() { return this.members[0] },
     ...mapState({
                 members: state => state.lobby.members,
-                issueStatus: state => state.lobby.issueStatus
+                issueStatus: state => state.lobby.issueStatus,
+      avg: state => state.lobby.avg
     }),
   },
   created () {
@@ -54,7 +55,6 @@ export default {
         this.$store.dispatch('lobby/updateIssue', data)
       });
       pusher.bind('user-voted', data => {
-        console.log(data, 'user-voted')
          this.$store.dispatch('lobby/updateIssue', data)
       })
     },

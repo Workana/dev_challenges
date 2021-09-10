@@ -29,8 +29,8 @@ class VoteIssueAction
         
         $body = $request->getParsedBody();
         
-        Assertion::keyExists($args, self::VOTE_PARAM);
-        Assertion::notNull($args[self::VOTE_PARAM]);
+        Assertion::keyExists($body, self::VOTE_PARAM);
+        Assertion::notNull($body[self::VOTE_PARAM]);
         
         if ($body[self::VOTE_PARAM] !== Issue::VOTE_PASSED) {
             Assertion::integerish($body[self::VOTE_PARAM]);

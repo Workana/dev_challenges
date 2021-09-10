@@ -30,6 +30,6 @@ div {
 }
 div.selected {
   font-size: 33px;
-  background: #2a9d8f;
+  background: #132a55;
 }
 </style>

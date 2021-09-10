@@ -5,6 +5,7 @@ const state = () => ({
     members: [],
     issue: null,
     issueStatus: '',
+    avg: null,
 })
 
 export default {

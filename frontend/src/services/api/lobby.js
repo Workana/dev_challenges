@@ -54,7 +54,6 @@ export default {
 
     async vote(issue, vote) {
         const body = {vote};
-        console.log(body)
         // eslint-disable-next-line no-unused-vars
         let response;
         try {
