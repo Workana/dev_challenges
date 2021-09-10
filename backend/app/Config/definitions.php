@@ -7,8 +7,6 @@ use App\Application\Interfaces\WebSocketService;
 use App\Application\Services\PusherService;
 use App\Domain\Repositories\IssueRepository;
 use App\Domain\Repositories\UserRepository;
-use App\Infrastructure\Persistence\Repositories\PredisClient;
-use App\Infrastructure\Persistence\Repositories\PredisClientInterface;
 use App\Infrastructure\Persistence\Repositories\PredisIssueRepository;
 use App\Infrastructure\Persistence\Repositories\PredisUserRepository;
 

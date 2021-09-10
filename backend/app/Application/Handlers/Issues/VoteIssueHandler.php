@@ -40,7 +40,7 @@ class VoteIssueHandler
         foreach ($issue->getUserStatuses() as $userStatuses) {
             if ($userStatuses['user'] === $userName) {
                 if ($command->getVote() === Issue::VOTE_PASSED) {
-                    $userStatuses['status'] = UserIssueStatuses::PASED;
+                    $userStatuses['status'] = UserIssueStatuses::PASSED;
                 } else {
                     $userStatuses['status'] = UserIssueStatuses::VOTED;
                     $userStatuses['vote'] = $command->getVote();
