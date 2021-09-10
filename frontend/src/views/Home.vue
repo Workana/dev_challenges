@@ -1,6 +1,6 @@
 <template>
   <div id="container">
-      <h3>Join issue</h3>
+      <h3>Welcome {{you}}. Join a new issue</h3>
       <form @submit.prevent="joinLobby">
         <input required type="number" placeholder="Enter an issue number" v-model="issue"/>
         <button type="submit">
@@ -22,6 +22,7 @@ export default {
     };
   },
   computed: {
+    you() {return authStorage.getUsername()},
     ...mapState({
       userIsRegistered: state => state.auth.userIsRegistered
     }),

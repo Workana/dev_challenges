@@ -34,18 +34,18 @@ export default {
     ...mapState({
                 members: state => state.lobby.members,
                 issueStatus: state => state.lobby.issueStatus,
-      avg: state => state.lobby.avg
+                avg: state => state.lobby.avg
     }),
   },
   created () {
     this.subscribe();
+    this.issue = this.$route.params.issue;
   },
   mounted() {
     if(!authStorage.getSession()){
       this.$router.push('/signup')
     }
-    this.issue = this.$route.params.issue;
-    this.$store.dispatch('lobby/getIssue', this.issue)
+    this.$store.dispatch('lobby/getIssue', this.$route.params.issue)
   },
   methods: {
     subscribe() {
@@ -55,6 +55,7 @@ export default {
         this.$store.dispatch('lobby/updateIssue', data)
       });
       pusher.bind('user-voted', data => {
+        console.log(data)
          this.$store.dispatch('lobby/updateIssue', data)
       })
     },
