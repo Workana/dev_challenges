@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Http\Actions\Issues;
 
 use App\Application\Commands\Issues\VoteIssueCommand;
-use App\Application\Exceptions\InvalidBodyException;
 use App\Application\Handlers\Issues\VoteIssueHandler;
 use App\Domain\Entities\Issue;
 use Assert\Assertion;
@@ -35,6 +34,8 @@ class VoteIssueAction
         if ($body[self::VOTE_PARAM] !== Issue::VOTE_PASSED) {
             Assertion::integerish($body[self::VOTE_PARAM]);
             $vote = (int) $body[self::VOTE_PARAM];
+        } else {
+            $vote = $body[self::VOTE_PARAM];
         }
 
         $this->handler->handle(
