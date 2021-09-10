@@ -90,6 +90,10 @@ class Issue
             }
         }
 
-        $this->avg = $votes / $voters;
+        if ($voters !== 0) {
+            $this->avg = $votes / $voters;       
+        } else {
+            $this->avg = 0;
+        }
     }
 }
