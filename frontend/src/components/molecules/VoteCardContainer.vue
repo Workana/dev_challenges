@@ -30,6 +30,7 @@ export default {
 
 #voteList {
   margin: 10px auto;
+  padding: 0;
   justify-content: center;
   display: flex;
   flex-wrap: wrap;

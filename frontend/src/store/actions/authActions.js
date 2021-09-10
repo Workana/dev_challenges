@@ -10,6 +10,7 @@ export const signUp = async ({ commit }, username) => {
     if (!isError(status)) {
         commit('userIsRegistered', username);
         authStorage.setSession(data.payload[0]);
+        authStorage.setUsername(username);
         await router.push('/')
     }
 

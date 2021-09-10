@@ -1,10 +1,14 @@
 <template>
   <div id="container">
     <VoteCardContainer v-bind:valid-votes="validVotes" @emitVote="emitVote"/>
-    <h3>
-      Voting issue #{{issue}} • Connected {{members.length}}
+    <h3 v-if="this.issueStatus === 'Voting'">
+      Voting issue #{{issue}}
     </h3>
-    <button v-show="this.issueStatus === 'Voted'">Reveal Cards</button>
+    <h3 v-else>
+      Issue #{{issue}} voted • Average:
+    </h3>
+    <button v-show="this.issueStatus === 'Finished'" @click="$router.push('/')">Join another issue</button>
+    <h3>Connected {{members.length}}</h3>
     <MembersContainer v-bind:members="this.members" v-bind:issueStatus="this.issueStatus"/>
   </div>
 </template>

@@ -10,6 +10,12 @@ class AuthStorage {
     deleteSession = () => {
         localStorageService.remove('auth-token');
     };
+
+    setUsername = (username) => {
+        localStorageService.set('username', username);
+    };
+
+    getUsername = () => localStorageService.get('username');
 }
 
 export default new AuthStorage();

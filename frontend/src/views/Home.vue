@@ -1,6 +1,6 @@
 <template>
   <div id="container">
-      <h3>Join room</h3>
+      <h3>Join issue</h3>
       <form @submit.prevent="joinLobby">
         <input required type="number" placeholder="Enter an issue number" v-model="issue"/>
         <button type="submit">

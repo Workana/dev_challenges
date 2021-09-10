@@ -37,11 +37,11 @@ h2 {
   text-align: center;
 }
 h3 {
-  color: #2a9d8f;
+  color: #132a55;
   text-shadow: 2px 2px 2px #ccc;
 }
 button {
-  background-color: #e76f51;
+  background-color: #1c3f7f;
   border: none;
   color: white;
   padding: 12px 30px;
@@ -55,7 +55,7 @@ button {
 }
 
 button:hover {
-  background-color: #b0513d;
+  background-color: #132a55;
 }
 
 input{

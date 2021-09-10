@@ -12,15 +12,13 @@
 </template>
 
 <script>
-import {mapState} from "vuex";
+import authStorage from "../../services/localStorage/authStorage";
 
 export default {
   name: "MembersContainer",
   props: {members: Array, issueStatus: String},
   computed: {
-    ...mapState({
-      you: state => state.auth.username,
-    }),
+    you() {return authStorage.getUsername()}
   },
 }
 </script>
@@ -28,6 +26,7 @@ export default {
 <style scoped>
 #memberList {
   list-style: none;
+  padding: 0;
 }
 #memberList li {
   box-shadow: 2px 2px 2px #444;
