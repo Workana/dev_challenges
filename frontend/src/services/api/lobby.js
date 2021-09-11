@@ -6,8 +6,8 @@ export default {
         let response;
         try {
             response = await api.post(`issue/${issue}/join`);
-        } catch (err) {
-            response = err;
+        } catch (error) {
+            response = error;
         }
         return response;
     },
@@ -17,8 +17,8 @@ export default {
         let response;
         try {
             response = await api.get(`issue/${issue}`);
-        } catch (err) {
-            response = err;
+        } catch (error) {
+            response = error;
         }
         return response;
     },
@@ -29,8 +29,8 @@ export default {
         let response;
         try {
             response = await api.post(`issue/${issue}/vote`, body);
-        } catch (err) {
-            response = err;
+        } catch (error) {
+            response = error;
         }
         return response;
     },

@@ -1,7 +1,7 @@
 <template>
     <ul id="voteList">
       <li v-for="vote in validVotes" :key="vote">
-        <Card v-bind:selected="vote === cardVoted" v-bind:disabled="issueStatus === 'Finished'" @selectCard="selectCard(vote)">{{vote}}</Card>
+        <Card v-bind:selected="vote === cardVoted" v-bind:disabled="issueStatus === 'Finished'" @select-card="selectCard(vote)">{{vote}}</Card>
       </li>
     </ul>
 </template>
@@ -20,7 +20,7 @@ export default {
   methods: {
     selectCard(vote) {
       this.cardVoted = vote;
-      this.$emit('emitVote', this.cardVoted);
+      this.$emit('emit-vote', this.cardVoted);
     },
   },
 }

@@ -1,5 +1,5 @@
 <template>
-  <div :class="{selected: this.selected, disabled: this.disabled}" @click="!disabled ? $emit('selectCard') : null">
+  <div :class="{selected: this.selected, disabled: this.disabled}" @click="!disabled ? $emit('select-card') : null">
     <slot></slot>
   </div>
 </template>

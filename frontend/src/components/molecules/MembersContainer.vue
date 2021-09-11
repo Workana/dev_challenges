@@ -1,9 +1,9 @@
 <template>
   <div class="members">
     <ul id="memberList">
-      <li :key="member.name" v-for="member in this.members">
-        <div class="status">{{member.vote || member.status === 'Pased' ? '✅' : ''}}</div>
-        <div class="name">{{member.user}}{{member.user === you ? ' (you)' : null}}</div>
+      <li v-for="member in this.members" :key="member.name">
+        <div class="status">{{member.vote || member.status === 'passed' ? '✅' : ''}}</div>
+        <div class="name">{{member.user}} {{member.user === you ? '(you)' : null}}</div>
         <div class="vote" v-if="issueStatus === 'Voting'">-</div>
         <div class="vote"  v-if="issueStatus === 'Finished'">{{member.vote ? member.vote : 'Passed'}}</div>
       </li>

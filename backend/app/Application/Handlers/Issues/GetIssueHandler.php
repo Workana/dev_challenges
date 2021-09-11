@@ -29,7 +29,7 @@ class GetIssueHandler
         if ($issue->getStatus() !== IssueStatuses::FINISHED) {
             $currentUserStatus = [];
             foreach ($issue->getUserStatuses() as $userStatuses) {
-                if ($userStatuses['status'] !== UserIssueStatuses::PASED){
+                if ($userStatuses['status'] !== UserIssueStatuses::PASSED){
                     unset($userStatuses['vote']);
                 }
                 $currentUserStatus[] = $userStatuses;

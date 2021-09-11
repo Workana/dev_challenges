@@ -5,16 +5,25 @@
       <input required type="text" v-model="username" placeholder="Enter your name"/>
       <button type="submit">Register</button>
     </form>
+    <span class="error" v-show="error">{{errorMessage}}</span>
   </div>
 </template>
 
 <script>
+import {mapState} from "vuex";
+
 export default {
   name: "SignUp",
   data() {
     return {
       username: '',
     };
+  },
+  computed: {
+    ...mapState({
+      error: state => state.error.isError,
+      errorMessage: state => state.error.message
+    }),
   },
   methods: {
     signUp(){

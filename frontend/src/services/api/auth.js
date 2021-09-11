@@ -7,8 +7,8 @@ export default {
         let response;
         try {
             response = await api.post('user/signup', body);
-        } catch (err) {
-            response = err;
+        } catch (error) {
+            response = error;
         }
         return response;
     }

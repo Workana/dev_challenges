@@ -1,6 +1,6 @@
 <template>
   <div id="container">
-    <VoteCardContainer v-bind:valid-votes="validVotes" v-bind:issue-status="issueStatus" @emitVote="emitVote"/>
+    <VoteCardContainer v-bind:valid-votes="validVotes" v-bind:issue-status="issueStatus" @emit-vote="emitVote"/>
     <h3 v-if="this.issueStatus === 'Voting'">
       Voting issue #{{issue}}
     </h3>
@@ -10,6 +10,7 @@
     <button v-show="this.issueStatus === 'Finished'" @click="$router.push('/')">Join another issue</button>
     <h3>Connected {{members.length}}</h3>
     <MembersContainer v-bind:members="this.members" v-bind:issueStatus="this.issueStatus"/>
+    <span class="error" v-show="error">{{errorMessage}}</span>
   </div>
 </template>
 
@@ -32,9 +33,11 @@ export default {
   computed: {
     you() { return this.members[0] },
     ...mapState({
-                members: state => state.lobby.members,
-                issueStatus: state => state.lobby.issueStatus,
-                avg: state => state.lobby.avg
+      members: state => state.lobby.members,
+      issueStatus: state => state.lobby.issueStatus,
+      avg: state => state.lobby.avg,
+      error: state => state.error.isError,
+      errorMessage: state => state.error.message
     }),
   },
   created () {

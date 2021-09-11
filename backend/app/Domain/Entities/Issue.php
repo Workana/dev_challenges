@@ -84,7 +84,7 @@ class Issue
         $votes = 0;
         $voters = 0;
         foreach ($this->userStatuses as $userStatuses) {
-            if ($userStatuses['status'] !== UserIssueStatuses::PASED) {
+            if ($userStatuses['status'] !== UserIssueStatuses::PASSED) {
                 $voters++;
                 $votes += $userStatuses['vote'];
             }

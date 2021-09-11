@@ -30,9 +30,6 @@ class GetIssueAction extends BaseAction
                 (int) $args[self::ISSUE_PARAM]
             )
         );
-        if (!$result) {
-            return $this->respondWithData($response, 'Issue not found');
-        }
 
         return $this->respondWithArray($response, $result->toArray());
     }

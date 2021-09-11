@@ -66,4 +66,8 @@ input{
   border: 2px solid #000000A0;
   border-radius: 4px;
 }
+
+.error{
+  color: red;
+}
 </style>

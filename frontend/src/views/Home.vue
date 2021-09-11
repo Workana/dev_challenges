@@ -7,6 +7,7 @@
           Join
         </button>
       </form>
+      <span class="error" v-show="error">{{errorMessage}}</span>
   </div>
 </template>
 
@@ -24,7 +25,8 @@ export default {
   computed: {
     you() {return authStorage.getUsername()},
     ...mapState({
-      userIsRegistered: state => state.auth.userIsRegistered
+      error: state => state.error.isError,
+      errorMessage: state => state.error.message
     }),
   },
   mounted() {

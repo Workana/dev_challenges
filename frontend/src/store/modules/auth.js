@@ -7,12 +7,11 @@ const state = () => ({
     userIsRegistered: false,
 })
 
-// getters
 const getters = {}
 
-// actions
 const actions = {
-    signUp: async ({ commit }, username) => {
+    signUp: async ({commit, dispatch}, username) => {
+        dispatch('error/clearError', null, { root: true });
         const response = await auth.signUp(username);
 
         const { status, data } = response;
@@ -24,11 +23,11 @@ const actions = {
         }
         else{
             commit('registerFail');
+            dispatch('error/setError', `The username couldn't be registered`, { root: true });
         }
     }
 }
 
-// mutations
 const mutations = {
     registerSuccessful (state) {
         state.userIsRegistered = true;
