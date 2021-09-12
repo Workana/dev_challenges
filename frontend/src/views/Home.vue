@@ -1,7 +1,7 @@
 <template>
   <div id="container">
       <h3>Welcome {{you}}. Join a new issue</h3>
-      <form @submit.prevent="joinLobby">
+      <form @submit.prevent="joinIssue">
         <input required type="number" min="1" placeholder="Enter an issue number" v-model="issue"/>
         <button type="submit">
           Join
@@ -14,6 +14,9 @@
 <script>
 import {mapState} from "vuex";
 import authStorage from "../services/localStorage/authStorage";
+import lobby from "../services/api/lobby";
+import {isError} from "../helpers/isError";
+import router from "../router/router";
 
 export default {
   name: "Home",
@@ -35,10 +38,17 @@ export default {
     }
   },
   methods: {
-    joinLobby()
-    {
-      this.$store.dispatch('lobby/joinIssue', this.issue);
-    }
+    async joinIssue() {
+      await this.$store.dispatch('error/clearError', null, { root: true });
+      const response = await lobby.joinIssue(this.issue)
+      const { status } = response;
+      if (!isError(status)) {
+        await router.push(`/lobby/${this.issue}`)
+      }
+      else{
+        await this.$store.dispatch('error/setError', `Something went wrong`, { root: true });
+      }
+    },
   },
 }
 </script>
@@ -48,5 +58,4 @@ export default {
   margin: 40px auto;
   width: 300px;
 }
-
 </style>

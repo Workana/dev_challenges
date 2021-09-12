@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import Card from "../atoms/Card";
+import Card from "../atoms/Card.vue";
 export default {
   name: "VoteCardContainer",
   components: {Card},

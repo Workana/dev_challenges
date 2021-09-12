@@ -16,10 +16,12 @@
 
 <script>
 import { mapState } from 'vuex'
-import VoteCardContainer from "../components/molecules/VoteCardContainer";
-import MembersContainer from "../components/molecules/MembersContainer";
+import VoteCardContainer from "../components/molecules/VoteCardContainer.vue";
+import MembersContainer from "../components/molecules/MembersContainer.vue";
 import authStorage from "../services/localStorage/authStorage";
 import Pusher from 'pusher-js';
+import lobby from "../services/api/lobby";
+import {isError} from "../helpers/isError";
 
 export default {
   name: 'Lobby',
@@ -61,9 +63,14 @@ export default {
          this.$store.dispatch('lobby/updateIssue', data)
       })
     },
-    emitVote(vote) {
-      this.$store.dispatch('lobby/vote', {issue: this.issue, vote})
-    },
+    async emitVote(vote) {
+      await this.$store.dispatch('error/clearError', null, { root: true });
+      const response = await lobby.vote(this.issue, vote);
+      const { status } = response;
+      if (isError(status)) {
+        await this.$store.dispatch('error/setError', `Something went wrong`, { root: true });
+      }
+    }
   }
 }
 </script>
@@ -73,10 +80,5 @@ export default {
 #container {
   max-width: 550px;
   margin: auto;
-}
-#issue {
-  color: #2a9d8f;
-  width: 75px;
-  text-align: center;
 }
 </style>

@@ -11,6 +11,10 @@
 
 <script>
 import {mapState} from "vuex";
+import auth from "../services/api/auth";
+import {isError} from "../helpers/isError";
+import authStorage from "../services/localStorage/authStorage";
+import router from "../router/router";
 
 export default {
   name: "SignUp",
@@ -26,8 +30,19 @@ export default {
     }),
   },
   methods: {
-    signUp(){
-      this.$store.dispatch('auth/signUp', this.username);
+    async signUp(){
+      await this.$store.dispatch('error/clearError', null, { root: true });
+      const response = await auth.signUp(this.username);
+
+      const { status, data } = response;
+      if (!isError(status)) {
+        authStorage.setSession(data.payload[0]);
+        authStorage.setUsername(this.username);
+        await router.push('/')
+      }
+      else{
+        await this.$store.dispatch('error/setError', `The username couldn't be registered`, { root: true });
+      }
     }
   }
 }

@@ -7,19 +7,19 @@ const getters = {}
 
 const actions = {
     setError: ({ commit }, message) => {
-        commit('setError', message);
+        commit('SET_ERROR', message);
     },
     clearError: ({ commit }) => {
-        commit('clearError');
+        commit('CLEAR_ERROR');
     }
 }
 
-const mutations = {
-    setError (state, message) {
+export const mutations = {
+    SET_ERROR(state, message) {
         state.isError = true;
         state.message = message;
     },
-    clearError (state) {
+    CLEAR_ERROR(state) {
         state.isError = false;
         state.message = '';
     },
