@@ -93,7 +93,7 @@ final class VoteIssueHandlerTest extends TestCase
                     ],
                     [
                         'user' => 'Agos',
-                        'status' => 'PASSED',
+                        'status' => 'Passed',
                         'vote' => null
                     ],
                 ],

@@ -8,5 +8,5 @@ class UserIssueStatuses extends Enum_
 {
     public const WAITING = 'Waiting';
     public const VOTED = 'Voted';
-    public const PASSED = 'passed';
+    public const PASSED = 'Passed';
 }

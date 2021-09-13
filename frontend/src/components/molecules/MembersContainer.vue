@@ -2,7 +2,7 @@
   <div class="members">
     <ul id="memberList">
       <li v-for="member in this.members" :key="member.name">
-        <div class="status">{{member.vote || member.status === 'passed' ? '✅' : ''}}</div>
+        <div class="status">{{member.vote || member.status === 'Passed' ? '✅' : ''}}</div>
         <div class="name">{{member.user}} {{member.user === you ? '(you)' : null}}</div>
         <div class="vote" v-if="issueStatus === 'Voting'">-</div>
         <div class="vote"  v-if="issueStatus === 'Finished'">{{member.vote ? member.vote : 'Passed'}}</div>
